@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,9 +15,11 @@ namespace crud
         public string AuthorName { get; set; }
         public string CategoryName { get; set; }
 
+        //we pass the conection to the Microsoft Server
         string connectionString = "Data Source=DESKTOP-COKF0ND\\MYSQL;Initial Catalog=Library;Integrated Security=True;Encrypt=False;Trust Server Certificate=True";
         //readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
 
+        //creation of a function that will conect than display the list of books in the grid if its not empty
         public List<Book> GetBooks()
         {
             List<Book> booklist = new List<Book>();
@@ -49,14 +51,17 @@ namespace crud
             }
             return booklist;
         }
-
+        
+        //creation of a function that adds new books, it takes the info that I insert in the textBox and insert into the Microsoft Server
         public void CreateBook(Book book)
         {
             SqlConnection con = new SqlConnection(connectionString);
 
+            //calls the function there and inserts it
             SqlCommand cmd = new SqlCommand("CreateBook", con);
             cmd.CommandType = CommandType.StoredProcedure;
 
+            //take the parameters from the textBoxs and insert into the Server
             cmd.Parameters.Add(new SqlParameter("@Title", book.Title));
             cmd.Parameters.Add(new SqlParameter("@Isbn", book.ISBN));
             cmd.Parameters.Add(new SqlParameter("@PublisherName", book.PublisherName));
@@ -71,6 +76,8 @@ namespace crud
         }
 
 
+        //takes take the information inside a specific Id, if i click one specific line
+        //it will read the id and pass all the complementary info
         public Book GetBookData(int bookId)
         {
             SqlConnection con = new SqlConnection(connectionString);
@@ -98,6 +105,8 @@ namespace crud
             return book;
         }
 
+        //takes the new info that is inserted into the camps and apply them,after that it takes back
+        //to the main and shows the changes
         public void EditBook(Book book)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -117,11 +126,14 @@ namespace crud
                 con.Close();
             }
         }
-
+        
+        //deletes the Book using the id as a info point, similiar to the GetBookId function, but it deletes 
         public void DeleteBook (int bookId)
         {
             SqlConnection con = new SqlConnection(connectionString);
+            //search for the command
             SqlCommand cmd = new SqlCommand("DeleteBook", con);
+            //call of the procedure
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.Add(new SqlParameter("@BookId", bookId));
