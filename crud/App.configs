@@ -1,0 +1,6 @@
+﻿<configuration>
+	<connectionStrings>
+		<add name="ConnectionString"
+			 connectionString ="Data Source=DESKTOP-COKF0ND\\MYSQL;Initial Catalog=Library;Integrated Security=True;Encrypt=False;Trust Server Certificate=True"/>
+		</connectionStrings>
+</configuration>
